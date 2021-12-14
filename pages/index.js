@@ -13,6 +13,7 @@ export default function Home() {
       <h1>Mission Smile</h1>
       <p>A project from Hannah L, Patrick, Sofie, Alisa, Hannah S. and Duc</p>
       <Button variant='contained'>Hello World</Button>
+      <p>Hallo Welt!</p>
     </div>
   )
 }
