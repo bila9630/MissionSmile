@@ -1,30 +1,55 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Grid from '@mui/material/Grid';
 import { Typography, TextField, Button } from '@mui/material';
 import { Box } from '@mui/system';
+import firebaseClient from '../firebaseClient';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
-const Login = () => {
-    const [username, setUsername] = useState("")
+
+const Signup = () => {
+    // authRef.current contains auth object from firebase
+    let authRef = useRef(undefined)
+
+    // It is use here to prevent rerender after each user input
+    useEffect(() => {
+        firebaseClient()
+        authRef.current = getAuth()
+    }, [])
+
+
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [usernameError, setUsernameError] = useState(false)
+    const [authErrorMessage, setAuthErrormessage] = useState("")
+    const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
 
+    // func get trigged when user submit form
     const handleSubmit = (e) => {
         e.preventDefault()
-        setUsernameError(false)
+        setEmailError(false)
         setPasswordError(false)
 
-        if (username === "") {
-            setUsernameError(true)
+        // check if input is empty. If it is, Textfield style will turn red
+        if (email === "") {
+            setEmailError(true)
         }
 
         if (password === "") {
             setPasswordError(true)
         }
 
-        if (username && password) {
-            console.log(username, password)
-            window.location.href = "/"
+        // pass email and password to firebase
+        if (email && password) {
+            console.log(email, password)
+            createUserWithEmailAndPassword(authRef.current, email, password)
+                .then((cred) => {
+                    console.log("user created:", cred.user)
+                    window.location.href = "/"
+                })
+                .catch(function (error) {
+                    const message = error.message
+                    setAuthErrormessage(message)
+                })
         }
 
     }
@@ -49,13 +74,13 @@ const Login = () => {
             <Grid item xs={3}>
                 <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                     <TextField
-                        onChange={(e) => setUsername(e.target.value)}
-                        label="Username"
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email"
                         variant="outlined"
                         margin="normal"
                         fullWidth
                         required
-                        error={usernameError}
+                        error={emailError}
                     />
                     <TextField
                         onChange={(e) => setPassword(e.target.value)}
@@ -68,19 +93,25 @@ const Login = () => {
                         error={passwordError}
                     />
                     <Box textAlign="center" mt={3}>
+                        <Typography>
+                            {authErrorMessage}
+                        </Typography>
                         <Button
                             type="submit"
                             variant="contained"
                         >
-                            Login/Sign up
+                            Sign up
                         </Button>
                     </Box>
 
                 </form>
+            </Grid>
+            <Grid>
+
             </Grid>
 
         </Grid>
     )
 }
 
-export default Login
+export default Signup

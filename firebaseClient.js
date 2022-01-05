@@ -1,5 +1,6 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp, getApp, getApps } from 'firebase/app'
 
+// set up firebase Config
 const firebaseConfig = {
     apiKey: "AIzaSyA3tGm05j4u_Q1fUYJFgcFtwH2FrBiwKz4",
     authDomain: "project-smile-684af.firebaseapp.com",
@@ -10,7 +11,7 @@ const firebaseConfig = {
 };
 
 export default function firebaseClient() {
-    if (!firebaseConfig.apps.length) {
-        initializeApp(firebaseConfig)
-    }
+    // initialize firebase 
+    getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()
+    // console.log(getApps()) // delete this line later
 }
