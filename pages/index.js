@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Button from '@mui/material/Button';
 import { initializeApp } from "firebase/app"
+import { getAuth, signOut } from 'firebase/auth'
 // import {
 //   getFireStore, collection, onSnapshot
 // } from "firebase/firestore"
@@ -22,6 +23,16 @@ initializeApp(firebaseConfig)
 // const db = getFireStore()
 
 export default function Home() {
+  const handleLogout = () => {
+    const auth = getAuth()
+    signOut(auth)
+      .then(() => {
+        window.location.href = "/login"
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +42,8 @@ export default function Home() {
       </Head>
       <h1>Mission Smile</h1>
       <p>A project from Hannah L, Patrick, Sofie, Alisa, Hannah S. and Duc</p>
-      <Button variant='contained'>Hello World</Button>
+      <Button variant="outlined" color="error" onClick={() => { handleLogout }}>Log out</Button>
+      {/* <Button variant="contained">asdfsdf</Button> */}
       <p>Hallo Welt!</p>
     </div>
   )

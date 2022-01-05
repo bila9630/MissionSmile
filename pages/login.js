@@ -104,7 +104,7 @@ const Signup = () => {
                             Log in
                         </Button>
                         <Box mt={3}>
-                            <Link href="signup">
+                            <Link href="/signup">
                                 <a>Dont have an account? Sign up here</a>
                             </Link>
                         </Box>
