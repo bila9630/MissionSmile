@@ -4,6 +4,7 @@ import { Typography, TextField, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import firebaseClient from '../firebaseClient';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import Link from 'next/link'
 
 
 const Signup = () => {
@@ -102,6 +103,11 @@ const Signup = () => {
                         >
                             Log in
                         </Button>
+                        <Box mt={3}>
+                            <Link href="signup">
+                                <a>Dont have an account? Sign up here</a>
+                            </Link>
+                        </Box>
                     </Box>
 
                 </form>
