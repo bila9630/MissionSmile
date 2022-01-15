@@ -41,6 +41,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Mission Smile</h1>
+      <p>Here will be logo</p>
       <p>A project from Hannah L, Patrick, Sofie, Alisa, Hannah S. and Duc</p>
       <Button variant="outlined" color="error" onClick={() => { handleLogout }}>Log out</Button>
       {/* <Button variant="contained">asdfsdf</Button> */}
