@@ -3,9 +3,6 @@ import styles from '../styles/Home.module.css'
 import Button from '@mui/material/Button';
 import { initializeApp } from "firebase/app"
 import { getAuth, signOut } from 'firebase/auth'
-// import {
-//   getFireStore, collection, onSnapshot
-// } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyA3tGm05j4u_Q1fUYJFgcFtwH2FrBiwKz4",
@@ -19,8 +16,8 @@ const firebaseConfig = {
 // init firebase app
 initializeApp(firebaseConfig)
 
-// init services
-// const db = getFireStore()
+// firebaseConfig and initializeApp should be deleted later
+
 
 export default function Home() {
   const handleLogout = () => {
