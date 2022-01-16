@@ -18,12 +18,17 @@ const AuthContextProvider = (props) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    function logout() {
+        const auth = getAuth()
+        return auth.signOut()
+    }
+
     useEffect(() => {
         firebaseClient()
     }, [])
 
 
-    const value = { currentUser, signup, login }
+    const value = { currentUser, signup, login, logout }
     return (
         <AuthContext.Provider value={value}>
             {props.children}

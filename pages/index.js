@@ -1,28 +1,14 @@
+import React, { useContext } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Button from '@mui/material/Button';
-import { initializeApp } from "firebase/app"
-import { getAuth, signOut } from 'firebase/auth'
-
-const firebaseConfig = {
-  apiKey: "AIzaSyA3tGm05j4u_Q1fUYJFgcFtwH2FrBiwKz4",
-  authDomain: "project-smile-684af.firebaseapp.com",
-  projectId: "project-smile-684af",
-  storageBucket: "project-smile-684af.appspot.com",
-  messagingSenderId: "665363154601",
-  appId: "1:665363154601:web:7ecba6646c58d6740c4bb8"
-};
-
-// init firebase app
-initializeApp(firebaseConfig)
-
-// firebaseConfig and initializeApp should be deleted later
-
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function Home() {
+  const { logout } = useContext(AuthContext)
+
   const handleLogout = () => {
-    const auth = getAuth()
-    signOut(auth)
+    logout()
       .then(() => {
         window.location.href = "/login"
       })
@@ -40,8 +26,13 @@ export default function Home() {
       <h1>Mission Smile</h1>
       <p>Here will be logo</p>
       <p>A project from Hannah L, Patrick, Sofie, Alisa, Hannah S. and Duc</p>
-      <Button variant="outlined" color="error" onClick={() => { handleLogout }}>Log out</Button>
-      {/* <Button variant="contained">asdfsdf</Button> */}
+      <Button
+        variant="outlined"
+        color="error"
+        onClick={() => handleLogout()}
+      >
+        Log out
+      </Button>
       <p>Hallo Welt!</p>
     </div>
   )
