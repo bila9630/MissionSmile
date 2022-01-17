@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 
 const Signup = () => {
-    const { currentUser, signup } = useContext(AuthContext)
+    const { signup } = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -63,7 +63,7 @@ const Signup = () => {
                     component="h1"
                     align="center"
                 >
-                    Project Smile {currentUser}
+                    Project Smile
                 </Typography>
             </Grid>
             <Grid item xs={3}>

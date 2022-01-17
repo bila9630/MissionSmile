@@ -1,13 +1,16 @@
 import '../styles/globals.css'
-import Layout from '../components/layout'
-import AuthContextProvider from '../contexts/AuthContext'
+import AuthContextProvider, { AuthContext } from '../contexts/AuthContext'
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps }) {
+  // const { currentUser } = useContext(AuthContext)
+  // const router = useRouter()
+
   return (
     <AuthContextProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {/* {currentUser ? <Component {...pageProps} /> : router.replace("/login")} */}
+      <Component {...pageProps} />
     </AuthContextProvider>
   )
 }

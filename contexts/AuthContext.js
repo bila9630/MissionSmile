@@ -1,11 +1,14 @@
 import React, { createContext, useState, useEffect } from 'react'
 import firebaseClient from '../firebaseClient'
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+    createUserWithEmailAndPassword, getAuth,
+    signInWithEmailAndPassword, onAuthStateChanged
+} from 'firebase/auth'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = (props) => {
-    const [currentUser, setCurrentUser] = useState("AuthContext works baby!")
+    const [currentUser, setCurrentUser] = useState()
 
     function signup(email, password) {
         console.log("signup from authContext was triggered")
@@ -25,6 +28,12 @@ const AuthContextProvider = (props) => {
 
     useEffect(() => {
         firebaseClient()
+        const auth = getAuth()
+        const unsubAuth = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user)
+        })
+
+        return unsubAuth
     }, [])
 
 
