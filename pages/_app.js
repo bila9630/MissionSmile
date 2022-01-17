@@ -4,12 +4,9 @@ import { useContext } from 'react'
 import { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps }) {
-  // const { currentUser } = useContext(AuthContext)
-  // const router = useRouter()
 
   return (
     <AuthContextProvider>
-      {/* {currentUser ? <Component {...pageProps} /> : router.replace("/login")} */}
       <Component {...pageProps} />
     </AuthContextProvider>
   )

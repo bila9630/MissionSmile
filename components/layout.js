@@ -1,12 +1,15 @@
 import React from 'react'
 import ResponsiveAppBar from './appbar'
+import AuthRoute from './authRoute'
 
 
 const Layout = ({ children }) => {
     return (
         <div>
-            <ResponsiveAppBar />
-            {children}
+            <AuthRoute>
+                <ResponsiveAppBar />
+                {children}
+            </AuthRoute>
         </div>
     )
 }

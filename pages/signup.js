@@ -13,9 +13,11 @@ const Signup = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [companyName, setCompanyName] = useState("")
     const [authErrorMessage, setAuthErrormessage] = useState("")
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+    const [companyNameError, setCompanyNameError] = useState(false)
 
     // func get trigged when user submit form
     const handleSubmit = (e) => {
@@ -32,8 +34,12 @@ const Signup = () => {
             setPasswordError(true)
         }
 
+        if (companyName === "") {
+            setCompanyNameError(true)
+        }
+
         // pass email and password to firebase
-        if (email && password) {
+        if (email && password && companyName) {
             signup(email, password)
                 .then((cred) => {
                     console.log("user created:", cred.user)
@@ -79,6 +85,15 @@ const Signup = () => {
                         fullWidth
                         required
                         error={passwordError}
+                    />
+                    <TextField
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        label="Company"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        required
+                        error={companyNameError}
                     />
                     <Box textAlign="center" mt={3}>
                         <Typography>

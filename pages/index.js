@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Head from 'next/head'
 import Layout from '../components/layout'
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function Home() {
+  const { currentUser } = useContext(AuthContext)
   return (
     <div>
       <Layout>
@@ -14,6 +16,11 @@ export default function Home() {
         </Head>
         <Typography>Home</Typography>
         <Typography>A project from Hannah L, Patrick, Sofie, Alisa, Hannah S. and Duc</Typography>
+        <Button
+          onClick={() => {
+            console.log(currentUser)
+          }}
+        >Seize my arm</Button>
       </Layout>
     </div>
   )

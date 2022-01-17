@@ -10,11 +10,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../contexts/AuthContext';
 import { useState, useContext } from 'react';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const ResponsiveAppBar = () => {
     const pages = ['home', 'analytics', 'pricing', 'team'];
@@ -74,9 +72,6 @@ const ResponsiveAppBar = () => {
     return (
         <AppBar
             position="static"
-            component={motion.div}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
         >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
@@ -160,7 +155,7 @@ const ResponsiveAppBar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/broken-image.jpg" />
+                                <Avatar alt="Profile picture" />
                             </IconButton>
                         </Tooltip>
                         <Menu

@@ -1,40 +1,43 @@
 import React, { createContext, useState, useEffect } from 'react'
-import firebaseClient from '../firebaseClient'
+import { auth } from '../firebaseClient'
 import {
-    createUserWithEmailAndPassword, getAuth,
+    createUserWithEmailAndPassword,
     signInWithEmailAndPassword, onAuthStateChanged
 } from 'firebase/auth'
 
 export const AuthContext = createContext()
 
 const AuthContextProvider = (props) => {
-    const [currentUser, setCurrentUser] = useState()
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     function signup(email, password) {
-        console.log("signup from authContext was triggered")
-        const auth = getAuth()
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
     function login(email, password) {
-        const auth = getAuth()
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     function logout() {
-        const auth = getAuth()
         return auth.signOut()
     }
 
     useEffect(() => {
-        firebaseClient()
-        const auth = getAuth()
-        const unsubAuth = onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setCurrentUser(user)
+                setTimeout(1)
+            } else {
+                setCurrentUser(null)
+            }
+            setLoading(false)
         })
-
-        return unsubAuth
     }, [])
+
+    if (loading) {
+        return <>Loading...</>
+    }
 
 
     const value = { currentUser, signup, login, logout }
