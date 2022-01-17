@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import Link from 'next/link'
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts/AuthContext';
+import Image from 'next/image'
 
 
 const Signup = () => {
@@ -57,15 +58,7 @@ const Signup = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <Grid item xs={3}>
-                <Typography
-                    variant="h4"
-                    component="h1"
-                    align="center"
-                >
-                    Project Smile
-                </Typography>
-            </Grid>
+            <Image src="/logo.png" alt="logo" width="256" height="128" />
             <Grid item xs={3}>
                 <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                     <TextField
