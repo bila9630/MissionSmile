@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion';
 import { AuthContext } from '../contexts/AuthContext';
 import Image from 'next/image'
-
+import Head from 'next/head'
 
 const Signup = () => {
     const { signup } = useContext(AuthContext)
@@ -53,67 +53,72 @@ const Signup = () => {
 
     }
     return (
-        <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "100vh" }}
-            component={motion.div}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-        >
-            <Image src="/logo.png" alt="logo" width="256" height="128" />
-            <Grid item xs={3}>
-                <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                    <TextField
-                        onChange={(e) => setEmail(e.target.value)}
-                        label="Email"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        error={emailError}
-                    />
-                    <TextField
-                        onChange={(e) => setPassword(e.target.value)}
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        error={passwordError}
-                    />
-                    <TextField
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        label="Company"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        error={companyNameError}
-                    />
-                    <Box textAlign="center" mt={3}>
-                        <Typography>
-                            {authErrorMessage}
-                        </Typography>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                        >
-                            Sign up
-                        </Button>
-                        <Box mt={3}>
-                            <Link href="/login">
-                                <a>Already have an account? Log in here</a>
-                            </Link>
+        <>
+            <Head>
+                <title>Sign up</title>
+            </Head>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "100vh" }}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
+                <Image src="/logo.png" alt="logo" width="256" height="128" />
+                <Grid item xs={3}>
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <TextField
+                            onChange={(e) => setEmail(e.target.value)}
+                            label="Email"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            error={emailError}
+                        />
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            error={passwordError}
+                        />
+                        <TextField
+                            onChange={(e) => setCompanyName(e.target.value)}
+                            label="Company"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            error={companyNameError}
+                        />
+                        <Box textAlign="center" mt={3}>
+                            <Typography>
+                                {authErrorMessage}
+                            </Typography>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                            >
+                                Sign up
+                            </Button>
+                            <Box mt={3}>
+                                <Link href="/login">
+                                    <a>Already have an account? Log in here</a>
+                                </Link>
+                            </Box>
                         </Box>
-                    </Box>
-                </form>
+                    </form>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     )
 }
 
