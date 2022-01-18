@@ -1,4 +1,5 @@
-import { initializeApp, getApp, getApps } from 'firebase/app'
+import { initializeApp, getApps } from 'firebase/app'
+import { getAuth } from "firebase/auth"
 
 // set up firebase Config
 const firebaseConfig = {
@@ -10,8 +11,11 @@ const firebaseConfig = {
     appId: "1:665363154601:web:7ecba6646c58d6740c4bb8"
 };
 
-export default function firebaseClient() {
-    // initialize firebase 
-    getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()
-    // console.log(getApps()) // delete this line later
+let firebaseApp
+
+if (!getApps().length) {
+    firebaseApp = initializeApp(firebaseConfig)
 }
+
+export const app = firebaseApp
+export const auth = getAuth(app)

@@ -1,22 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useContext } from 'react'
 import Grid from '@mui/material/Grid';
 import { Typography, TextField, Button } from '@mui/material';
 import { Box } from '@mui/system';
-import firebaseClient from '../firebaseClient';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import Link from 'next/link'
-
+import { motion } from 'framer-motion';
+import { AuthContext } from '../contexts/AuthContext';
+import Image from 'next/image'
+import Head from 'next/head'
 
 const Signup = () => {
-    // authRef.current contains auth object from firebase
-    let authRef = useRef(undefined)
-
-    // It is use here to prevent rerender after each user input
-    useEffect(() => {
-        firebaseClient()
-        authRef.current = getAuth()
-    }, [])
-
+    const { login } = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -41,8 +34,7 @@ const Signup = () => {
 
         // pass email and password to firebase
         if (email && password) {
-            console.log(email, password)
-            signInWithEmailAndPassword(authRef.current, email, password)
+            login(email, password)
                 .then((cred) => {
                     console.log("user created:", cred.user)
                     window.location.href = "/"
@@ -55,68 +47,65 @@ const Signup = () => {
 
     }
     return (
-        <Grid
-            container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            style={{ minHeight: "100vh" }}
-        >
-            <Grid item xs={3}>
-                <Typography
-                    variant="h4"
-                    component="h1"
-                    align="center"
-                >
-                    Project Smile
-                </Typography>
-            </Grid>
-            <Grid item xs={3}>
-                <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                    <TextField
-                        onChange={(e) => setEmail(e.target.value)}
-                        label="Email"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        error={emailError}
-                    />
-                    <TextField
-                        onChange={(e) => setPassword(e.target.value)}
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        error={passwordError}
-                    />
-                    <Box textAlign="center" mt={3}>
-                        <Typography>
-                            {authErrorMessage}
-                        </Typography>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                        >
-                            Log in
-                        </Button>
-                        <Box mt={3}>
-                            <Link href="/signup">
-                                <a>Dont have an account? Sign up here</a>
-                            </Link>
+        <>
+            <Head>
+                <title>Login</title>
+            </Head>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "100vh" }}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
+                <Image src="/logo.png" alt="logo" width="256" height="128" />
+                <Grid item xs={3}>
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <TextField
+                            onChange={(e) => setEmail(e.target.value)}
+                            label="Email"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            error={emailError}
+                        />
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            required
+                            error={passwordError}
+                        />
+                        <Box textAlign="center" mt={3}>
+                            <Typography>
+                                {authErrorMessage}
+                            </Typography>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                            >
+                                Log in
+                            </Button>
+                            <Box mt={3}>
+                                <Link href="/signup">
+                                    <a>Dont have an account? Sign up here</a>
+                                </Link>
+                            </Box>
                         </Box>
-                    </Box>
 
-                </form>
+                    </form>
+                </Grid>
             </Grid>
-            <Grid>
+        </>
 
-            </Grid>
-
-        </Grid>
     )
 }
 
