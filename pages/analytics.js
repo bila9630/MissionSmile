@@ -11,6 +11,9 @@ const analytics = () => {
             </Head>
             <Layout>
                 <Typography>Analytics page</Typography>
+                <Typography>14.01.2022: Happy</Typography>
+                <Typography>16.01.2022: Sad</Typography>
+                <Typography>17.01.2022: Angry</Typography>
             </Layout>
         </div>
     )
