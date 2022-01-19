@@ -12,12 +12,11 @@ const team = () => {
             <Head>
                 <title>Team</title>
             </Head>
-            <Layout>
-            <div >
-                <h1 style={{hight:250, width:250, paddingTop:10, paddingLeft:475 ,  textAlignVertical: "center"}}> 
+            <Layout style={{paddingLeft:'30%' }}>
+                <h1 style={{ hight:250, width:'10%', paddingTop:10, paddingLeft:'45%' ,  textAlignVertical: "center"}}> 
                     Unser Team
                     </h1>
-                    <Stack direction={{ xs: 'column', sm: 'row' }}
+                    <Stack style={{paddingLeft:'17%' }}  direction={{ xs: 'column', sm: 'row' }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}>
                         <item style={{ width:300, paddingTop:20, paddingLeft:50}}>
                             <img src="./images/sofie.jpg" alt="" 
@@ -38,7 +37,7 @@ const team = () => {
                             <Typography>Developer</Typography>
                         </item>
                     </Stack>
-                    <Stack direction={{ xs: 'column', sm: 'row' }}
+                    <Stack style={{paddingLeft:'17%' }} direction={{ xs: 'column', sm: 'row' }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}>
                         <item style={{ width:300, paddingTop:20, paddingLeft:50}}>
                             <img src="./images/sofie.jpg" alt="" 
@@ -59,7 +58,6 @@ const team = () => {
                             <Typography>Developer</Typography>
                         </item>
                     </Stack>
-            </div>
             </Layout>
         </div>
     )
