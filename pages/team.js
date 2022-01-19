@@ -3,6 +3,8 @@ import React from 'react'
 import Layout from '../components/layout'
 import { Typography } from '@mui/material'
 import Head from 'next/head'
+import Grid from '@mui/material/Grid';
+
 
 
 
@@ -12,11 +14,23 @@ const team = () => {
             <Head>
                 <title>Team</title>
             </Head>
-            <Layout style={{paddingLeft:'30%' }}>
-                <h1 style={{ hight:250, width:'10%', paddingTop:10, paddingLeft:'45%' ,  textAlignVertical: "center"}}> 
+            <Layout direction="column"
+                alignItems="center"
+                justify="center">
+                    <Grid
+                    container
+                    spacing={0}
+                    direction="column"
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: "100vh" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}>
+
+                    <h1 style={{ hight:250, width:'10%', paddingTop:10,   textAlignVertical: "center"}}> 
                     Unser Team
                     </h1>
-                    <Stack style={{paddingLeft:'17%' }}  direction={{ xs: 'column', sm: 'row' }}
+                    <Stack direction={{ xs: 'column', sm: 'row' }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}>
                         <item style={{ width:300, paddingTop:20, paddingLeft:50}}>
                             <img src="./images/sofie.jpg" alt="" 
@@ -37,7 +51,7 @@ const team = () => {
                             <Typography>Developer</Typography>
                         </item>
                     </Stack>
-                    <Stack style={{paddingLeft:'17%' }} direction={{ xs: 'column', sm: 'row' }}
+                    <Stack direction={{ xs: 'column', sm: 'row' }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}>
                         <item style={{ width:300, paddingTop:20, paddingLeft:50}}>
                             <img src="./images/sofie.jpg" alt="" 
@@ -58,6 +72,7 @@ const team = () => {
                             <Typography>Developer</Typography>
                         </item>
                     </Stack>
+                    </Grid>
             </Layout>
         </div>
     )
