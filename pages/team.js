@@ -3,7 +3,7 @@ import Layout from '../components/layout'
 import { Typography } from '@mui/material'
 import Head from 'next/head'
 
-const team = () => {
+const Team = () => {
     return (
         <div>
             <Head>
@@ -17,4 +17,4 @@ const team = () => {
     )
 }
 
-export default team
+export default Team

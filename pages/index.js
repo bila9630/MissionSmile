@@ -4,52 +4,28 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
-  // input button component
-  const Input = styled('input')({
-    display: 'none',
-  });
+  const [selectedImage, setSelectedImage] = useState(null)
 
-  const [images, setImages] = useState([]);
-
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-
-
-  function doSomethingWithFiles(fileList) {
-    let file = null;
-
-    for (let i = 0; i < fileList.length; i++) {
-      if (fileList[i].type.match(/^image\//)) {
-        file = fileList[i];
-        break;
-      }
+  const encodeImageAsURL = async (file) => {
+    var reader = new FileReader()
+    reader.onloadend = function () {
+      console.log("RESULT", reader.result)
     }
-
-    if (file !== null) {
-      const newImages = [...images];
-      newImages.push(URL.createObjectURL(file));
-      setImages(newImages);
-      toBase64(file).then((result) => console.log(result));
-    }
+    reader.readAsDataURL(file)
+    return reader.result
   }
 
-  function test(image) {
-    const files = image.target.files;
-
-    doSomethingWithFiles(files);
-  }
-
-
+  // const toBase64 = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
 
   return (
     <Layout>
@@ -75,24 +51,34 @@ export default function Home() {
         <Typography component="div">Angry: <Box sx={{ fontWeight: "bold" }} display="inline">1</Box> </Typography>
         <Typography component="div">Confused: <Box sx={{ fontWeight: "bold" }} display="inline">1</Box> </Typography>
       </Stack>
+      {selectedImage == null ?
+        <p>No Image selected yet</p> :
+        <Image alt="not fount" width="256" height="256" src={URL.createObjectURL(selectedImage)} />
+      }
+      <br />
+      <Stack direction="row" spacing={2}>
+        <input
+          accept="image/*"
+          type="file"
+          name="myImage"
+          id="image-button-file"
+          onChange={(event) => {
+            let file = event.target.files[0]
+            setSelectedImage(file)
+            encodeImageAsURL(file)
+            // let imageURL = encodeImageAsURL(file)
+            // console.log(imageURL)
+            // console.log(encodeImageAsURL(file))
+          }}
+          hidden
+        />
+        <label htmlFor="image-button-file">
+          <Button variant="contained" component="span">Upload</Button>
+        </label>
+        <Button variant="contained" onClick={() => setSelectedImage(null)}>Remove image</Button>
+      </Stack>
 
 
-      {/* render uploaded image */}
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        {images.map((image, index) => (
-          <div key={index} style={{ width: "150px", paddingRight: "12px" }}>
-            <Image src={image} alt="uploaded picture" width="256" height="256" />
-          </div>
-        ))}
-      </div>
-
-      {/* upload button image */}
-      <label htmlFor="contained-button-file">
-        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={test} />
-        <Button variant="contained" component="span">
-          Upload
-        </Button>
-      </label>
     </Layout>
   )
 }
