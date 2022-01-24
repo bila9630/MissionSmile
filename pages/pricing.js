@@ -6,7 +6,7 @@ import { Box, fontSize } from '@mui/system';
 import Stack from '@mui/material/Stack';
 
 
-const pricing = () => {
+const Pricing = () => {
     return (
         <div>
             <Head>
@@ -53,4 +53,4 @@ const pricing = () => {
     )
 }
 
-export default pricing
+export default Pricing
