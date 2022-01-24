@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 
 
-const team = () => {
+const Team = () => {
     return (
         <div>
             <Head>
@@ -68,6 +68,9 @@ const team = () => {
     )
 }
 
+<<<<<<< HEAD
 export default Team
+=======
+>>>>>>> 6196fe74e9265b5c473a950511b8ed87a39b7f18
 
-        
+export default team
