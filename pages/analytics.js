@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../components/layout'
 import { Button, Typography } from '@mui/material'
 import Head from 'next/head'
-import Box from '@mui/material/Box';
 import { AuthContext } from '../contexts/AuthContext'
 import {
     getFirestore, collection, query,
@@ -42,10 +41,9 @@ const Analytics = () => {
         })
     }, []);
 
-    const handleAPI = async () => {
-        console.log(emotionCollection)
-        console.log(currentUser.uid)
-    }
+    // const handleAPI = async () => {
+    //     console.log(emotionCollection)
+    // }
 
     return (
         <div>
@@ -53,7 +51,8 @@ const Analytics = () => {
                 <title>Analytics</title>
             </Head>
             <Layout>
-                <Button variant="contained" onClick={() => handleAPI()}>Call API</Button>
+                {/* <Button variant="contained" onClick={() => handleAPI()}>Call API</Button> */}
+                <Typography>there are {emoCollectionLength} item in the database</Typography>
                 {emotionCollection.map(emotionItem => <Typography key={emotionItem.id}>{emotionItem.time} {emotionItem.emotion}</Typography>)}
             </Layout>
         </div>
