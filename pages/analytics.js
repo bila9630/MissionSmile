@@ -52,7 +52,6 @@ const Analytics = () => {
             </Head>
             <Layout>
                 {/* <Button variant="contained" onClick={() => handleAPI()}>Call API</Button> */}
-                <Typography>there are {emoCollectionLength} item in the database</Typography>
                 {emotionCollection.map(emotionItem => <Typography key={emotionItem.id}>{emotionItem.time} {emotionItem.emotion}</Typography>)}
             </Layout>
         </div>
