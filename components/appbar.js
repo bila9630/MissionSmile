@@ -16,7 +16,7 @@ import { useState, useContext } from 'react';
 
 const ResponsiveAppBar = () => {
     const pages = ['home', 'analytics', 'pricing', 'team'];
-    const settings = ['Profile', 'Logout'];
+    const settings = ['Logout'];
 
     const { logout } = useContext(AuthContext)
 
