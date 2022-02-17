@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../components/layout'
-import { Button, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import Head from 'next/head'
 import { AuthContext } from '../contexts/AuthContext'
 import {
     getFirestore, collection, query,
     orderBy, onSnapshot, where,
 } from 'firebase/firestore'
+import moment from "moment"
 
 const Analytics = () => {
     const { currentUser } = useContext(AuthContext)
@@ -20,8 +21,7 @@ const Analytics = () => {
         // collection reference
         const colRef = collection(db, "emotions")
         // queries
-        const q = query(colRef, where("userId", "==", currentUser.uid))
-        // orderBy("createdAt"),
+        const q = query(colRef, where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"))
         const unsubCol = onSnapshot(q, (snapshot) => {
             let emotionData = []
             setEmotionCollection([])
@@ -30,20 +30,12 @@ const Analytics = () => {
             })
 
             emotionData.forEach((item) => {
-                let time = item.createdAt.toMillis()
-                let time_decoded = new Date(time)
-                let time_string = String(time_decoded)
-                let emotion = item.emotion
-                let item_id = item.id
-                setEmotionCollection(emotionCollection => [...emotionCollection, { time: time_string, emotion: emotion, id: item_id }])
+                let momentTime = moment(item.createdAt.toDate()).format("lll")
+                setEmotionCollection(emotionCollection => [...emotionCollection, { time: momentTime, emotion: item.emotion, id: item.id }])
             })
 
         })
     }, []);
-
-    // const handleAPI = async () => {
-    //     console.log(emotionCollection)
-    // }
 
     return (
         <div>
@@ -51,7 +43,6 @@ const Analytics = () => {
                 <title>Analytics</title>
             </Head>
             <Layout>
-                {/* <Button variant="contained" onClick={() => handleAPI()}>Call API</Button> */}
                 {emotionCollection.map(emotionItem => <Typography key={emotionItem.id}>{emotionItem.time} {emotionItem.emotion}</Typography>)}
             </Layout>
         </div>
