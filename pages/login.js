@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import Image from 'next/image'
 import Head from 'next/head'
 
-const Signup = () => {
+const Login = () => {
     const { login } = useContext(AuthContext)
 
     const [email, setEmail] = useState("")
@@ -109,4 +109,4 @@ const Signup = () => {
     )
 }
 
-export default Signup
+export default Login
