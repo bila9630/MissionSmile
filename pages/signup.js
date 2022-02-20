@@ -36,7 +36,6 @@ const Signup = () => {
         if (email && password) {
             signup(email, password)
                 .then((cred) => {
-                    console.log("user created:", cred.user)
                     window.location.href = "/"
                 })
                 .catch(function (error) {

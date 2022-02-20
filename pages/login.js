@@ -13,7 +13,7 @@ const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [authErrorMessage, setAuthErrormessage] = useState("")
+    const [authErrorMessage, setAuthErrorMessage] = useState("")
     const [emailError, setEmailError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
 
@@ -36,12 +36,11 @@ const Login = () => {
         if (email && password) {
             login(email, password)
                 .then((cred) => {
-                    console.log("user created:", cred.user)
                     window.location.href = "/"
                 })
                 .catch(function (error) {
                     const message = error.message
-                    setAuthErrormessage(message)
+                    setAuthErrorMessage(message)
                 })
         }
 
