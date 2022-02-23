@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore'
 import { AuthContext } from '../contexts/AuthContext'
 
+// Das ist die Startseite
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [resultEmotion, setResultEmotion] = useState("nothing")
