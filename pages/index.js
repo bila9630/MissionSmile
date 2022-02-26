@@ -1,39 +1,41 @@
-import Head from 'next/head';
-import Layout from '../components/layout';
-import { Typography } from '@mui/material';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { useState, useContext } from 'react';
-import Image from 'next/image';
-import Grid from '@mui/material/Grid';
+import Head from "next/head";
+import Layout from "../components/layout";
+import { Card, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import { useState, useContext } from "react";
+import Image from "next/image";
+import Grid from "@mui/material/Grid";
 import {
-  getFirestore, collection,
-  addDoc, serverTimestamp
-} from 'firebase/firestore'
-import { AuthContext } from '../contexts/AuthContext'
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Home() {
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [resultEmotion, setResultEmotion] = useState("nothing")
-  const [emotionScore, setEmotionScore] = useState(0)
-  const [recommendation, setRecommendation] = useState()
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [resultEmotion, setResultEmotion] = useState("nothing");
+  const [emotionScore, setEmotionScore] = useState(0);
+  const [recommendation, setRecommendation] = useState();
 
   // get user id to add data to database
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
 
   // init database
-  const db = getFirestore()
+  const db = getFirestore();
   // collection reference
-  const colRef = collection(db, "emotions")
+  const colRef = collection(db, "emotions");
 
   const addData = async (emotion) => {
     addDoc(colRef, {
       createdAt: serverTimestamp(),
       emotion: emotion,
       userId: currentUser.uid,
-    })
-  }
+    });
+  };
 
   // encode image to base64
   const toBase64 = (file) =>
@@ -49,33 +51,32 @@ export default function Home() {
     const response = await fetch(url_emotion, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ "encodedImage": codedImage })
-    })
-    let data = await response.json()
-    setResultEmotion(data.emotion)
-    setEmotionScore(data.score)
-    addData(data.emotion)
+      body: JSON.stringify({ encodedImage: codedImage }),
+    });
+    let data = await response.json();
+    setResultEmotion(data.emotion);
+    setEmotionScore(data.score);
+    addData(data.emotion);
     if (data.emotion != null) {
-      const response_recom = await fetch(url_recom_base + data.emotion)
-      let data_recom = await response_recom.json()
-      setRecommendation(data_recom.answer)
+      const response_recom = await fetch(url_recom_base + data.emotion);
+      let data_recom = await response_recom.json();
+      setRecommendation(data_recom.answer);
     } else {
-      setRecommendation("The model cant detect any emotion")
+      setRecommendation("The model cant detect any emotion");
     }
+  };
 
-  }
-
-  const url_emo = "https://powerful-plains-46454.herokuapp.com/uploadImage"
-  const url_recom_base = "https://smile-emotion-recognition.herokuapp.com/recom/"
+  const url_emo = "https://powerful-plains-46454.herokuapp.com/uploadImage";
+  const url_recom_base =
+    "https://smile-emotion-recognition.herokuapp.com/recom/";
 
   const getRecommendation = async (file) => {
-    toBase64(file)
-      .then((result) => {
-        getEmotion(url_emo, result, url_recom_base)
-      })
-  }
+    toBase64(file).then((result) => {
+      getEmotion(url_emo, result, url_recom_base);
+    });
+  };
 
   return (
     <Layout>
@@ -86,7 +87,6 @@ export default function Home() {
       </Head>
       {/* this will be build in later */}
 
-
       <Grid
         container
         spacing={0}
@@ -94,20 +94,116 @@ export default function Home() {
         alignItems="center"
         justify="center"
       >
-        <Typography variant="h4">Home</Typography>
+        <Card
+          sx={{
+            bgcolor: "primary.light",
+            width: "32rem",
+            pb: "1rem",
+            pt: "1rem",
+            mt: "3rem",
+            mb: "3rem",
+            borderRadius: "1rem",
+            border: "0.3rem solid",
+            borderColor: "primary.main",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 16,
+              ml: "8rem",
+              fontStyle: "bold",
+            }}
+            color="text.secondary"
+            gutterBottom
+          >
+            <b> Please take or upload a picture! </b>
+          </Typography>
+        </Card>
+
+        {/* Buttons */}
         <Stack
-          direction={{ xs: 'column', sm: 'row' }}
+          direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
         >
-          <Typography component="div">Emotion: <Box sx={{ fontWeight: "bold" }} display="inline">{resultEmotion}</Box> </Typography>
-          <Typography component="div">Score: <Box sx={{ fontWeight: "bold" }} display="inline">{emotionScore}</Box> </Typography>
+          <label htmlFor="image-button-file">
+            <Button variant="contained" component="span">
+              Upload
+            </Button>
+          </label>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSelectedImage(null);
+              setRecommendation("");
+              setEmotionScore(0);
+              setResultEmotion("nothing");
+            }}
+          >
+            Remove image
+          </Button>
         </Stack>
-        <Typography component="div">Recommendation: <Box sx={{ fontWeight: "bold" }} display="inline">{recommendation}</Box> </Typography>
 
-        {selectedImage == null ?
-          <Typography>No Image selected yet</Typography> :
-          <Image alt="not fount" width="256" height="256" src={URL.createObjectURL(selectedImage)} />
-        }
+        <Button
+          sx={{ mt: 3 }}
+          variant="contained"
+          color="dark"
+          onClick={() => {
+            if (selectedImage == null) {
+              alert("no image selected yet");
+            } else {
+              getRecommendation(selectedImage);
+            }
+          }}
+        >
+          Get recommendation
+        </Button>
+
+        {/* Ausgabe: */}
+
+        <Stack
+          sx={{ mt: "4rem" }}
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: "2rem", md: "4rem" }}
+        >
+          <div component="div" display="inline">
+            <Image
+              src="/emotionBar.png"
+              alt="emotionbar"
+              width="600rem"
+              height="70rem"
+            />
+            <Typography>
+              Emotion:{" "}
+              <Box sx={{ fontWeight: "bold" }} display="inline">
+                {resultEmotion}
+              </Box>
+            </Typography>
+          </div>
+
+          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
+            Score:{" "}
+            <Box sx={{ fontWeight: "bold" }} display="inline">
+              {emotionScore}
+            </Box>
+          </Typography>
+        </Stack>
+        <Typography component="div">
+          Recommendation:{" "}
+          <Box sx={{ fontWeight: "bold" }} display="inline">
+            {recommendation}
+          </Box>
+        </Typography>
+
+        {selectedImage == null ? (
+          <Typography>No Image selected yet</Typography>
+        ) : (
+          <Image
+            alt="not fount"
+            width="256"
+            height="256"
+            src={URL.createObjectURL(selectedImage)}
+          />
+        )}
         <br />
         <Stack direction="row" spacing={2}>
           <input
@@ -116,35 +212,13 @@ export default function Home() {
             name="myImage"
             id="image-button-file"
             onChange={(event) => {
-              let file = event.target.files[0]
-              setSelectedImage(file)
+              let file = event.target.files[0];
+              setSelectedImage(file);
             }}
             hidden
           />
-          <label htmlFor="image-button-file">
-            <Button variant="contained" component="span">Upload</Button>
-          </label>
-          <Button variant="contained" onClick={() => {
-            setSelectedImage(null)
-            setRecommendation("")
-            setEmotionScore(0)
-            setResultEmotion("nothing")
-          }}>
-            Remove image
-          </Button>
         </Stack>
-        <Button sx={{ mt: 3 }} variant="contained" onClick={() => {
-          if (selectedImage == null) {
-            alert("no image selected yet")
-          } else {
-            getRecommendation(selectedImage)
-          }
-        }}>
-          Get recommendation
-        </Button>
       </Grid>
-
-
     </Layout>
-  )
+  );
 }

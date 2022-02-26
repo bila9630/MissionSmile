@@ -60,19 +60,30 @@ const Login = () => {
   };
   return (
     <Grid container justifyContent="center" alignItems="center">
-      <ThemeProvider theme={MyThemes}>
-        {/* <div style={backgroundImage}> */}
-        <Container
-          sx={{ bgcolor: "primary.main", minHeight: "100vh", minWidth: "100%" }}
+      {/* <div style={backgroundImage}> */}
+      <Container
+        sx={{ bgcolor: "primary.main", minHeight: "100vh", minWidth: "100rem" }}
+      >
+        <Head>
+          <title>Login</title>
+        </Head>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          component={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
         >
-          <Head>
-            <title>Login</title>
-          </Head>
           <Card
             sx={{
               bgcolor: "primary.light",
-              width: "42%",
-              pb: 3,
+              width: "32rem",
+              pb: "3rem",
+              pt: "3rem",
+              mt: "3rem",
               borderRadius: 8,
             }}
           >
@@ -86,7 +97,12 @@ const Login = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <Image src="/logo.png" alt="logo" width="256" height="128" />
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width="256rem"
+                height="128rem"
+              />
               <Grid item xs={3}>
                 <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                   <TextField
@@ -115,8 +131,8 @@ const Login = () => {
                     </Button>
                     <Box mt={3}>
                       <Button type="button" variant="contained" color="primary">
-                        <Link href="/signup" underline="none">
-                          <a> Don't have an account? Sign up here </a>
+                        <Link href="/signup">
+                          <a>Don't have an account? Sign up here</a>
                         </Link>
                       </Button>
                     </Box>
@@ -125,9 +141,9 @@ const Login = () => {
               </Grid>
             </Grid>
           </Card>
-        </Container>
-        {/* </div> */}
-      </ThemeProvider>
+        </Grid>
+      </Container>
+      {/* </div> */}
     </Grid>
   );
 };
