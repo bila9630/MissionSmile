@@ -18,6 +18,7 @@ const Login = () => {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  //set backgroundimage
   const imageUrl =
     WindowWidth >= 650
       ? "./background-yellow-mobile.jpg"
@@ -53,8 +54,14 @@ const Login = () => {
   return (
     <Grid
       container
-      justifyContent="center"
+      spacing={0}
+      direction="column"
       alignItems="center"
+      justify="center"
+      style={{ minHeight: "100vh" }}
+      component={motion.div}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       sx={{
         backgroundImage: `url(${imageUrl})`,
         backgroundRepeat: "no-repeat",
@@ -97,6 +104,7 @@ const Login = () => {
                 component={motion.div}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                sx={{ paddingLeft: "1rem", paddingRight: "1rem" }}
               >
                 <Image
                   src="/logo.png"

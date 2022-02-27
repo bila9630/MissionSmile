@@ -14,11 +14,12 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { AuthContext } from "../contexts/AuthContext";
 import { useState, useContext } from "react";
+import BgYellowDesktop from "../public/background-yellow.jpg";
+import BgYellowMobile from "../public/background-yellow-mobile.jpg";
 
 const ResponsiveAppBar = () => {
   const pages = ["home", "analytics", "pricing", "team"];
   const settings = ["Logout"];
-
   const { logout } = useContext(AuthContext);
 
   // switching between pages

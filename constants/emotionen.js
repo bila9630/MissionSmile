@@ -5,6 +5,6 @@ export const EMOTIONEN = Object.freeze({
   FEAR: 2,
   DISGUST: 3,
   NEUTRAL: 4,
-  SUPRISED: 5,
+  SUPRISE: 5,
   HAPPY: 6,
 });

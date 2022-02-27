@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import { AuthContext } from "../contexts/AuthContext";
 import Emotionmeter from "../components/emotionmeter";
-import { EMOTIONEN } from "../constants/emotionen";
+import WindowWidth from "../contexts/Bgcontext";
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -80,6 +80,12 @@ export default function Home() {
     });
   };
 
+  //set background images
+  const imageUrl =
+    WindowWidth >= 650
+      ? "./background-white-mobile.jpg"
+      : "./background-white.jpg";
+
   return (
     <Layout>
       <Head>
@@ -95,6 +101,12 @@ export default function Home() {
           direction="column"
           alignItems="center"
           justify="center"
+          style={{ minHeight: "100vh" }}
+          sx={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
         >
           <Card
             sx={{

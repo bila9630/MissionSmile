@@ -13,15 +13,12 @@ export default function Emotionmeter({ emotion }) {
       <div
         style={{
           height: "2rem",
+          width: "32rem",
           background:
             "linear-gradient(90deg, rgba(251,97,7,1) 0%, rgba(255,192,0,1) 50%, rgba(92,128,1,1) 100%)",
         }}
-      >
-        Lorem{" "}
-      </div>
-      <div
-        style={{ height: "2rem", backgroundColor: "red", position: "relative" }}
-      >
+      ></div>
+      <div style={{ height: "2rem", position: "relative" }}>
         {emotionvalue && (
           <div
             style={{
@@ -35,7 +32,6 @@ export default function Emotionmeter({ emotion }) {
           ></div>
         )}
       </div>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut, architecto?
     </div>
   );
 }
