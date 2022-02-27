@@ -15,6 +15,9 @@ const customTheme = createTheme({
     dark: {
       main: "#5C8001",
     },
+    light: {
+      main: "#fffffff",
+    },
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },

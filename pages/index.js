@@ -14,6 +14,8 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { AuthContext } from "../contexts/AuthContext";
+import Emotionmeter from "../components/emotionmeter";
+import { EMOTIONEN } from "../constants/emotionen";
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -86,139 +88,136 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* this will be build in later */}
-
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-      >
-        <Card
-          sx={{
-            bgcolor: "primary.light",
-            width: "32rem",
-            pb: "1rem",
-            pt: "1rem",
-            mt: "3rem",
-            mb: "3rem",
-            borderRadius: "1rem",
-            border: "0.3rem solid",
-            borderColor: "primary.main",
-          }}
+      <main color="primary.main">
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
         >
-          <Typography
+          <Card
             sx={{
-              fontSize: 16,
-              ml: "8rem",
-              fontStyle: "bold",
+              bgcolor: "primary.light",
+              width: "32rem",
+              pb: "1rem",
+              pt: "1rem",
+              mt: "3rem",
+              mb: "3rem",
+              borderRadius: "1rem",
+              border: "0.3rem solid",
+              borderColor: "primary.main",
             }}
-            color="text.secondary"
-            gutterBottom
           >
-            <b> Please take or upload a picture! </b>
-          </Typography>
-        </Card>
+            <Typography
+              sx={{
+                fontSize: 16,
+                ml: "8rem",
+                fontStyle: "bold",
+              }}
+              color="text.secondary"
+              gutterBottom
+            >
+              <b> Please take or upload a picture! </b>
+            </Typography>
+          </Card>
 
-        {/* Buttons */}
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: 2, md: 4 }}
-        >
-          <label htmlFor="image-button-file">
-            <Button variant="contained" component="span">
-              Upload
+          {/* Buttons */}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+          >
+            <label htmlFor="image-button-file">
+              <Button variant="contained" component="span">
+                Upload
+              </Button>
+            </label>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setSelectedImage(null);
+                setRecommendation("");
+                setEmotionScore(0);
+                setResultEmotion("nothing");
+              }}
+            >
+              Remove image
             </Button>
-          </label>
+          </Stack>
+
           <Button
-            variant="outlined"
+            sx={{ mt: 3 }}
+            variant="contained"
+            color="dark"
             onClick={() => {
-              setSelectedImage(null);
-              setRecommendation("");
-              setEmotionScore(0);
-              setResultEmotion("nothing");
+              if (selectedImage == null) {
+                alert("no image selected yet");
+              } else {
+                getRecommendation(selectedImage);
+              }
             }}
           >
-            Remove image
+            Get recommendation
           </Button>
-        </Stack>
 
-        <Button
-          sx={{ mt: 3 }}
-          variant="contained"
-          color="dark"
-          onClick={() => {
-            if (selectedImage == null) {
-              alert("no image selected yet");
-            } else {
-              getRecommendation(selectedImage);
-            }
-          }}
-        >
-          Get recommendation
-        </Button>
+          {/* Ausgabe: */}
 
-        {/* Ausgabe: */}
+          <Stack
+            sx={{ mt: "4rem" }}
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: "2rem", md: "4rem" }}
+          >
+            <div component="div" display="inline">
+              <Emotionmeter emotion={resultEmotion} />
+              <Typography>
+                Emotion:{" "}
+                <Box sx={{ fontWeight: "bold" }} display="inline">
+                  {resultEmotion}
+                </Box>
+              </Typography>
+            </div>
 
-        <Stack
-          sx={{ mt: "4rem" }}
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: "2rem", md: "4rem" }}
-        >
-          <div component="div" display="inline">
-            <Image
-              src="/emotionBar.png"
-              alt="emotionbar"
-              width="600rem"
-              height="70rem"
-            />
-            <Typography>
-              Emotion:{" "}
+            <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
+              Score:{" "}
               <Box sx={{ fontWeight: "bold" }} display="inline">
-                {resultEmotion}
+                {emotionScore}
               </Box>
             </Typography>
-          </div>
+          </Stack>
 
-          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
-            Score:{" "}
+          <Typography component="div">
+            Recommendation:{" "}
             <Box sx={{ fontWeight: "bold" }} display="inline">
-              {emotionScore}
+              {recommendation}
             </Box>
           </Typography>
-        </Stack>
-        <Typography component="div">
-          Recommendation:{" "}
-          <Box sx={{ fontWeight: "bold" }} display="inline">
-            {recommendation}
-          </Box>
-        </Typography>
 
-        {selectedImage == null ? (
-          <Typography>No Image selected yet</Typography>
-        ) : (
-          <Image
-            alt="not fount"
-            width="256"
-            height="256"
-            src={URL.createObjectURL(selectedImage)}
-          />
-        )}
-        <br />
-        <Stack direction="row" spacing={2}>
-          <input
-            accept="image/*"
-            type="file"
-            name="myImage"
-            id="image-button-file"
-            onChange={(event) => {
-              let file = event.target.files[0];
-              setSelectedImage(file);
-            }}
-            hidden
-          />
-        </Stack>
-      </Grid>
+          {selectedImage == null ? (
+            <Typography>No Image selected yet</Typography>
+          ) : (
+            <Image
+              alt="not fount"
+              width="256"
+              height="256"
+              src={URL.createObjectURL(selectedImage)}
+            />
+          )}
+          <br />
+          <Stack direction="row" spacing={2}>
+            <input
+              accept="image/*"
+              type="file"
+              name="myImage"
+              id="image-button-file"
+              onChange={(event) => {
+                let file = event.target.files[0];
+                setSelectedImage(file);
+              }}
+              hidden
+            />
+          </Stack>
+        </Grid>
+      </main>
     </Layout>
   );
 }
