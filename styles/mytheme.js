@@ -6,6 +6,8 @@ const customTheme = createTheme({
       light: "#fff0c4",
       main: "#ffc000",
       contrastText: "#000000",
+      background: "#FFF275",
+      backgroundDark: "#FFD65A",
     },
     secondary: {
       light: "##FDA97B",

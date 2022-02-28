@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 const PricingCard = ({ number, time, price }) => {
     return (
         <Grid item xs={12} sm={6} md={4}
-            sx={{ backgroundColor: "primary.backgroundDark", border: 4, borderRadius: 10, borderColor: "primary.background" }}
+            sx={{ backgroundColor: "primary.background", border: 4, borderRadius: 10, borderColor: "primary.backgroundDark" }}
         >
             <Typography variant="h4" textAlign="center" my={"2rem"}>Paket {number} </Typography>
             <Typography mb={"1rem"}>Sicherung und Analyse der Daten sowie ein abschließendes Beratungsgespräch</Typography>
