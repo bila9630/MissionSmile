@@ -7,6 +7,7 @@ import Emotionmeter from "../components/emotionmeter";
 import Layout from "../components/layout";
 import WindowWidth from "../contexts/Bgcontext";
 import { useEmotions } from "../contexts/EmotionContext";
+import Grid from "@mui/material/Grid";
 
 const Analytics = () => {
   const [emotionResult, setEmotionResult] = useState(0);
@@ -33,41 +34,46 @@ const Analytics = () => {
         <title>Analytics</title>
       </Head>
       <Layout sx={{}}>
-        <Stack
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
           style={{
             backgroundImage: `url(${imageUrl})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             minHeight: "80vh",
           }}
-          sx={{ mt: "4rem" }}
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: "2rem", md: "4rem" }}
         >
-          <div component="div" display="inline">
-            <Emotionmeter emotion={resultEmotion} value={emotionResult} />
-            <Typography>
-              Emotion:{" "}
+          <Stack>
+            <div component="div" display="inline">
+              <br></br>
+              <br></br>
+              <br></br>
+              <Typography>
+                Here you can see the average of all your emotions.
+              </Typography>
+              <br></br>
+              <br></br>
+              <Emotionmeter emotion={resultEmotion} value={emotionResult} />
+              <Typography>
+                Current Emotion:{" "}
+                <Box sx={{ fontWeight: "bold" }} display="inline">
+                  {resultEmotion}
+                </Box>
+              </Typography>
+            </div>
+
+            <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
+              Your current average Emotion result:
               <Box sx={{ fontWeight: "bold" }} display="inline">
-                {resultEmotion}
+                {emotionResult}
               </Box>
             </Typography>
-          </div>
-
-          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
-            Score:
-            <Box sx={{ fontWeight: "bold" }} display="inline">
-              {score}
-            </Box>
-          </Typography>
-
-          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
-            Emotion result:
-            <Box sx={{ fontWeight: "bold" }} display="inline">
-              {emotionResult}
-            </Box>
-          </Typography>
-        </Stack>
+          </Stack>
+        </Grid>
       </Layout>
     </div>
   );
