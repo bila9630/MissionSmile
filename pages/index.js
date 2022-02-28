@@ -1,27 +1,33 @@
-import Head from "next/head";
-import Layout from "../components/layout";
 import { Card, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { useState, useContext } from "react";
-import Image from "next/image";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import {
-  getFirestore,
-  collection,
   addDoc,
+  collection,
+  getFirestore,
   serverTimestamp,
 } from "firebase/firestore";
-import { AuthContext } from "../contexts/AuthContext";
+import Head from "next/head";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
 import Emotionmeter from "../components/emotionmeter";
-import WindowWidth from "../contexts/Bgcontext";
+import Layout from "../components/layout";
+import { AuthContext } from "../contexts/AuthContext";
+import { useEmotions } from "../contexts/EmotionContext";
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [resultEmotion, setResultEmotion] = useState("nothing");
-  const [emotionScore, setEmotionScore] = useState(0);
   const [recommendation, setRecommendation] = useState();
+
+  const {
+    resultEmotion,
+    setResultEmotion,
+    emotionScore,
+    setEmotionScore,
+    getData,
+  } = useEmotions();
 
   // get user id to add data to database
   const { currentUser } = useContext(AuthContext);
@@ -80,11 +86,9 @@ export default function Home() {
     });
   };
 
-  //set background images
-  const imageUrl =
-    WindowWidth >= 650
-      ? "./background-white-mobile.jpg"
-      : "./background-white.jpg";
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <Layout>
@@ -101,12 +105,6 @@ export default function Home() {
           direction="column"
           alignItems="center"
           justify="center"
-          style={{ minHeight: "100vh" }}
-          sx={{
-            backgroundImage: `url(${imageUrl})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
         >
           <Card
             sx={{

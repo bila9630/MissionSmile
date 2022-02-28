@@ -1,66 +1,73 @@
-import React, { useContext, useEffect, useState } from "react";
-import Layout from "../components/layout";
 import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Head from "next/head";
-import { AuthContext } from "../contexts/AuthContext";
-import {
-  getFirestore,
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-  where,
-} from "firebase/firestore";
-import moment from "moment";
+import React, { useEffect, useState } from "react";
+import Emotionmeter from "../components/emotionmeter";
+import Layout from "../components/layout";
 import WindowWidth from "../contexts/Bgcontext";
+import { useEmotions } from "../contexts/EmotionContext";
 
 const Analytics = () => {
-  const { currentUser } = useContext(AuthContext);
-  const [emotionCollection, setEmotionCollection] = useState([
-    { time: "", emotion: "", id: "" },
-  ]);
+  const [emotionResult, setEmotionResult] = useState(0);
 
-  // init database
-  const db = getFirestore();
+  const { emotionScore, resultEmotion, calcResult } = useEmotions();
+  const [score, setScore] = useState(0);
+
+  //set backgroundimage
+  const imageUrl =
+    WindowWidth >= 650
+      ? "./background-white-mobile.jpg"
+      : "./background-white.jpg";
 
   // get collection data
   useEffect(() => {
     // collection reference
-    const colRef = collection(db, "emotions");
-    // queries
-    const q = query(
-      colRef,
-      where("userId", "==", currentUser.uid),
-      orderBy("createdAt", "desc")
-    );
-    const unsubCol = onSnapshot(q, (snapshot) => {
-      let emotionData = [];
-      setEmotionCollection([]);
-      snapshot.docs.forEach((doc) => {
-        emotionData.push({ ...doc.data(), id: doc.id });
-      });
-
-      emotionData.forEach((item) => {
-        let momentTime = moment(item.createdAt.toDate()).format("lll");
-        setEmotionCollection((emotionCollection) => [
-          ...emotionCollection,
-          { time: momentTime, emotion: item.emotion, id: item.id },
-        ]);
-      });
-    });
-  }, []);
+    setEmotionResult(calcResult());
+    setScore(emotionScore);
+  }, [resultEmotion]);
 
   return (
     <div>
       <Head>
         <title>Analytics</title>
       </Head>
-      <Layout>
-        {emotionCollection.map((emotionItem) => (
-          <Typography key={emotionItem.id}>
-            {emotionItem.time} {emotionItem.emotion}
+      <Layout sx={{}}>
+        <Stack
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            minHeight: "80vh",
+          }}
+          sx={{ mt: "4rem" }}
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: "2rem", md: "4rem" }}
+        >
+          <div component="div" display="inline">
+            <Emotionmeter emotion={resultEmotion} value={emotionResult} />
+            <Typography>
+              Emotion:{" "}
+              <Box sx={{ fontWeight: "bold" }} display="inline">
+                {resultEmotion}
+              </Box>
+            </Typography>
+          </div>
+
+          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
+            Score:
+            <Box sx={{ fontWeight: "bold" }} display="inline">
+              {score}
+            </Box>
           </Typography>
-        ))}
+
+          <Typography component="div" sx={{ paddingTop: "1.5rem" }}>
+            Emotion result:
+            <Box sx={{ fontWeight: "bold" }} display="inline">
+              {emotionResult}
+            </Box>
+          </Typography>
+        </Stack>
       </Layout>
     </div>
   );
