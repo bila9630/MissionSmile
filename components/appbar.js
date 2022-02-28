@@ -91,6 +91,7 @@ const ResponsiveAppBar = () => {
             }}
             onClick={() => switchPage("/")}
           ></Typography>
+
           {/* This burger menu will be displayed on phone */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton

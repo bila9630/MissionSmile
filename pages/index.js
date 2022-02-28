@@ -16,6 +16,7 @@ import Emotionmeter from "../components/emotionmeter";
 import Layout from "../components/layout";
 import { AuthContext } from "../contexts/AuthContext";
 import { useEmotions } from "../contexts/EmotionContext";
+import WindowWidth from "../contexts/Bgcontext";
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -28,6 +29,12 @@ export default function Home() {
     setEmotionScore,
     getData,
   } = useEmotions();
+
+  //set background images
+  const imageUrl =
+    WindowWidth >= 650
+      ? "./background-white-mobile.jpg"
+      : "./background-white.jpg";
 
   // get user id to add data to database
   const { currentUser } = useContext(AuthContext);
@@ -105,6 +112,12 @@ export default function Home() {
           direction="column"
           alignItems="center"
           justify="center"
+          style={{ minHeight: "100vh" }}
+          sx={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
         >
           <Card
             sx={{
